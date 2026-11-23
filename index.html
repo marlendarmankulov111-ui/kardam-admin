@@ -7,310 +7,259 @@
 <title>KARDAM — Админ-панель</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
 
 :root {
-  --black: #171714;
-  --dark: #22211d;
-  --ivory: #f5f1e8;
-  --white: #fffdf8;
-  --gold: #b69a68;
-  --gold-light: #d2bd94;
-  --muted: #898274;
-  --line: #ded7c9;
+  --black:#171714;
+  --dark:#22211d;
+  --ivory:#f5f1e8;
+  --white:#fffdf8;
+  --gold:#b69a68;
+  --gold-light:#d2bd94;
+  --muted:#898274;
+  --line:#ded7c9;
+  --red:#984f43;
 }
-
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--black);
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
 }
-
-body {
-  margin: 0;
-  background: var(--ivory);
-  color: var(--black);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+header{
+  background:var(--black);
+  color:var(--ivory);
+  min-height:82px;
+  padding:18px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
-
-header {
-  min-height: 82px;
-  padding: 20px 6%;
-  background: var(--black);
-  color: var(--ivory);
-  border-bottom: 1px solid #39362f;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+  letter-spacing:8px;
+  color:var(--gold-light);
 }
-
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  letter-spacing: 9px;
-  color: var(--gold-light);
+header small{color:#c9c0ae}
+main{
+  max-width:1150px;
+  margin:40px auto;
+  padding:0 22px 60px;
 }
-
-header #account {
-  color: #d7cbb5;
-  font-size: 12px;
+h2{
+  font-family:'Playfair Display',serif;
+  font-weight:400;
+  font-size:29px;
+  margin:15px 0 25px;
 }
-
-main {
-  max-width: 1180px;
-  margin: 45px auto;
-  padding: 0 25px 60px;
+h3{font-weight:500;margin-top:0}
+.card{
+  background:var(--white);
+  border:1px solid var(--line);
+  padding:26px;
+  margin:18px 0;
+  box-shadow:0 5px 20px rgba(30,25,15,.035);
 }
-
-h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 29px;
-  font-weight: 400;
-  color: var(--black);
-  margin: 20px 0 25px;
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:15px 0;
+  margin:20px 0 28px;
+  border-bottom:1px solid var(--line);
 }
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 16px 0;
-  margin: 20px 0 30px;
-  border-bottom: 1px solid var(--line);
+button{
+  padding:12px 20px;
+  background:var(--black);
+  color:var(--ivory);
+  border:1px solid var(--black);
+  cursor:pointer;
+  font-family:inherit;
+  font-size:12px;
+  letter-spacing:.7px;
+  transition:.2s;
 }
-
-button {
-  padding: 13px 22px;
-  background: var(--black);
-  color: var(--ivory);
-  border: 1px solid var(--black);
-  border-radius: 2px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: .2s ease;
+button:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+button.secondary{background:transparent;color:var(--black);border-color:var(--line)}
+button.danger{background:transparent;color:var(--red);border-color:#c9a49c}
+button.danger:hover{background:var(--red);color:white}
+input:not([type="checkbox"]),textarea,select{
+  width:100%;
+  padding:13px;
+  margin:8px 0 18px;
+  background:#fffefa;
+  border:1px solid var(--line);
+  color:var(--black);
+  font-family:inherit;
+  font-size:14px;
+  outline:none;
 }
-
-button:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #171714;
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+textarea{min-height:100px;resize:vertical}
+label{
+  display:block;
+  color:#655e52;
+  font-size:12px;
+  letter-spacing:.4px;
 }
-
-button.secondary {
-  background: transparent;
-  color: var(--black);
-  border-color: var(--line);
+input[type="checkbox"]{accent-color:var(--gold)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:15px;
 }
-
-button.secondary:hover {
-  background: var(--gold);
-  border-color: var(--gold);
+.item{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
 }
-
-button.danger {
-  background: transparent;
-  color: #934c40;
-  border-color: #c9a49c;
+.item img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  background:#eee9df;
+  border:1px solid var(--line);
 }
-
-button.danger:hover {
-  background: #934c40;
-  color: white;
+.item strong{
+  display:block;
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  font-weight:500;
 }
-
-.card {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 30px;
-  margin: 18px 0;
-  border-radius: 3px;
-  box-shadow: 0 5px 20px rgba(30, 25, 15, .035);
+.item-info{flex:1;min-width:0}
+.small{font-size:12px;color:var(--muted);margin-top:7px}
+.hidden{display:none!important}
+#message,#messagePanel{color:#887047;padding:10px 0;min-height:20px}
+.login-box{max-width:420px;margin:70px auto}
+.login-box .card{padding:35px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.status{display:inline-block;padding:5px 9px;background:#eee8db;font-size:11px}
+.photo-preview{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.photo-preview img{width:85px;height:85px;object-fit:cover;border:1px solid var(--line)}
+.empty{padding:25px 0;color:var(--muted)}
+.order-item{border-bottom:1px solid var(--line);padding:16px 0}
+.order-item:last-child{border:0}
+@media(max-width:600px){
+  header{padding:16px 20px}
+  .logo{font-size:24px;letter-spacing:5px}
+  main{margin:25px auto;padding:0 14px 40px}
+  h2{font-size:25px}
+  .card{padding:19px}
+  .item{align-items:flex-start;flex-wrap:wrap}
+  .item img{width:72px;height:72px}
+  .item-info{min-width:150px}
+  nav button{flex:1 1 40%}
 }
-
-input:not([type="checkbox"]),
-textarea,
-select {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0 20px;
-  background: #fffefa;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  color: var(--black);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  outline: none;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--gold);
-}
-
-label {
-  color: #655e52;
-  font-size: 12px;
-  letter-spacing: .5px;
-}
-
-input[type="checkbox"] {
-  accent-color: var(--gold);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 15px;
-}
-
-.item {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.item img {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  background: #eee9df;
-  border: 1px solid var(--line);
-}
-
-.item strong {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.small {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 7px;
-}
-
-#message,
-#messagePanel {
-  color: #887047;
-  padding-top: 12px;
-  font-size: 13px;
-}
-
-pre {
-  background: var(--ivory);
-  padding: 15px;
-  overflow-x: auto;
-  font-size: 12px;
-  color: var(--dark);
-  border: 1px solid var(--line);
-}
-
-.hidden {
-  display: none !important;
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 18px 20px;
-  }
-
-  .logo {
-    font-size: 25px;
-    letter-spacing: 6px;
-  }
-
-  main {
-    margin: 25px auto;
-    padding: 0 15px 40px;
-  }
-
-  h2 {
-    font-size: 25px;
-  }
-
-  .card {
-    padding: 20px;
-  }
-
-  .item {
-    flex-wrap: wrap;
-  }
-
-  nav button {
-    flex: 1 1 40%;
-  }
-}
-
 </style>
 </head>
 <body>
+
 <header>
- <div class="logo">KARDAM</div>
- <div id="account"></div>
+  <div class="logo">KARDAM</div>
+  <div>
+    <small id="account">Панель управления</small>
+    <button id="logoutBtn" class="secondary hidden" onclick="logout()">Выйти</button>
+  </div>
 </header>
 
 <main>
-<section id="login" class="card">
- <h2>Вход администратора</h2>
- <label>Email</label>
- <input id="email" type="email" placeholder="Ваш email">
- <label>Пароль</label>
- <input id="password" type="password" placeholder="Пароль">
- <button onclick="login()">Войти</button>
- <div id="message"></div>
-</section>
+  <section id="loginSection" class="login-box">
+    <div class="card">
+      <h2>Добро пожаловать</h2>
+      <p class="small">Вход в административную панель KARDAM</p>
+      <form id="loginForm">
+        <label>Электронная почта</label>
+        <input id="email" type="email" required autocomplete="username" placeholder="Email">
+        <label>Пароль</label>
+        <input id="password" type="password" required autocomplete="current-password" placeholder="Пароль">
+        <button type="submit">ВОЙТИ</button>
+      </form>
+      <div id="loginMessage"></div>
+    </div>
+  </section>
 
-<section id="panel" class="hidden">
- <h2>Панель управления</h2>
- <nav>
-  <button onclick="showTab('products')">Товары</button>
-  <button onclick="showTab('add')">Добавить товар</button>
-  <button onclick="showTab('orders')">Заказы</button>
-  <button class="secondary" onclick="logout()">Выйти</button>
- </nav>
+  <section id="panel" class="hidden">
+    <h2>Управление магазином</h2>
+    <p class="small">Административная панель интернет-магазина KARDAM</p>
 
- <section id="products">
-  <h2>Каталог товаров</h2>
-  <div id="productList">Загрузка...</div>
- </section>
+    <nav>
+      <button onclick="showTab('products')">ТОВАРЫ</button>
+      <button onclick="showTab('add')">ДОБАВИТЬ ТОВАР</button>
+      <button onclick="showTab('orders')">ЗАКАЗЫ</button>
+    </nav>
 
- <section id="add" class="hidden">
-  <h2 id="formTitle">Новый товар</h2>
-  <input type="hidden" id="productId">
-  <label>Название</label>
-  <input id="name" placeholder="Например, ошейник KARDAM">
-  <label>Категория</label>
-  <select id="category">
-   <option value="Ошейники">Ошейники</option>
-   <option value="Поводки">Поводки</option>
-   <option value="Намордники">Намордники</option>
-  </select>
-  <label>Описание</label>
-  <textarea id="description" rows="3" placeholder="Описание товара"></textarea>
-  <div class="grid">
-   <div><label>Цена (₸)</label><input id="price" type="number"></div>
-   <div><label>Цена со скидкой (₸)</label><input id="sale_price" type="number"></div>
-   <div><label>Количество</label><input id="stock" type="number"></div>
-  </div>
-  <label>Фотографии товара</label>
-  <input id="photos" type="file" accept="image/*" multiple>
-  <label><input id="active" type="checkbox" checked style="width:auto"> Показывать товар на сайте</label>
-  <div id="photoInfo" class="small"></div>
-  <button onclick="saveProduct()">Сохранить товар</button>
-  <button class="secondary" onclick="resetForm()">Очистить</button>
- </section>
+    <section id="productsTab">
+      <h2>Каталог товаров</h2>
+      <div id="productsList" class="card">
+        <p class="empty">Загрузка товаров...</p>
+      </div>
+    </section>
 
- <section id="orders" class="hidden">
-  <h2>Заказы покупателей</h2>
-  <div id="orderList">Загрузка...</div>
- </section>
- <div id="messagePanel"></div>
-</section>
+    <section id="addTab" class="hidden">
+      <h2 id="formTitle">Новый товар</h2>
+      <div class="card">
+        <form id="productForm">
+          <input type="hidden" id="productId">
+
+          <label>Название товара</label>
+          <input id="name" required placeholder="Например, Ошейник KARDAM">
+
+          <label>Категория</label>
+          <select id="category" required>
+            <option value="">Выберите категорию</option>
+            <option value="Ошейники">Ошейники</option>
+            <option value="Поводки">Поводки</option>
+            <option value="Намордники">Намордники</option>
+            <option value="Другое">Другое</option>
+          </select>
+
+          <label>Описание</label>
+          <textarea id="description" placeholder="Описание товара"></textarea>
+
+          <div class="grid">
+            <div>
+              <label>Цена (₸)</label>
+              <input id="price" type="number" min="0" step="1" required>
+            </div>
+            <div>
+              <label>Цена со скидкой (₸)</label>
+              <input id="salePrice" type="number" min="0" step="1" placeholder="Если нет — оставьте пустым">
+            </div>
+            <div>
+              <label>Количество на складе</label>
+              <input id="stock" type="number" min="0" step="1" value="0">
+            </div>
+          </div>
+
+          <label>Фотографии товара</label>
+          <input id="images" type="file" accept="image/*" multiple>
+          <p class="small">Можно выбрать несколько фотографий. При редактировании новые фото добавятся к старым.</p>
+          <div id="photoPreview" class="photo-preview"></div>
+
+          <label><input id="isActive" type="checkbox" checked> Показывать товар в магазине</label>
+
+          <div class="actions">
+            <button type="submit" id="saveBtn">СОХРАНИТЬ ТОВАР</button>
+            <button type="button" class="secondary" onclick="resetForm()">ОЧИСТИТЬ</button>
+          </div>
+          <div id="message"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="ordersTab" class="hidden">
+      <h2>Заказы покупателей</h2>
+      <div id="ordersList" class="card">
+        <p class="empty">Загрузка заказов...</p>
+      </div>
+    </section>
+  </section>
 </main>
 
 <script>
@@ -320,166 +269,304 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentImages = [];
 
-function msg(t){
- document.getElementById("messagePanel").textContent=t;
+const $ = id => document.getElementById(id);
+
+function message(text, isError=false) {
+  $("message").textContent = text;
+  $("message").style.color = isError ? "#984f43" : "#887047";
 }
-async function login(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
- const {data,error}=await db.auth.signInWithPassword({email,password});
- if(error){document.getElementById("message").textContent=error.message;return;}
- await checkAdmin(data.user);
+
+async function checkSession() {
+  const {data:{session}} = await db.auth.getSession();
+  if (session) await authorize(session.user);
 }
-async function checkAdmin(user){
- const {data,error}=await db.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();
- if(error || !data){
+
+async function authorize(user) {
+  const {data,error} = await db
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id",user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    $("loginMessage").textContent = "У этого аккаунта нет прав администратора.";
+    await db.auth.signOut();
+    return;
+  }
+
+  $("loginSection").classList.add("hidden");
+  $("panel").classList.remove("hidden");
+  $("logoutBtn").classList.remove("hidden");
+  $("account").textContent = user.email || "Администратор";
+  await loadProducts();
+}
+
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("loginMessage").textContent = "Проверяем данные...";
+  const {data,error} = await db.auth.signInWithPassword({
+    email:$("email").value.trim(),
+    password:$("password").value
+  });
+
+  if (error) {
+    $("loginMessage").textContent = "Ошибка входа: " + error.message;
+    return;
+  }
+  await authorize(data.user);
+});
+
+async function logout() {
   await db.auth.signOut();
-  document.getElementById("message").textContent="У этого аккаунта нет прав администратора.";
-  return;
- }
- document.getElementById("login").classList.add("hidden");
- document.getElementById("panel").classList.remove("hidden");
- document.getElementById("account").textContent=user.email;
- loadProducts();
+  location.reload();
 }
-async function logout(){
- await db.auth.signOut();
- location.reload();
+
+function showTab(tab) {
+  ["products","add","orders"].forEach(name => {
+    $(name+"Tab").classList.toggle("hidden",name !== tab);
+  });
+  if (tab === "products") loadProducts();
+  if (tab === "orders") loadOrders();
+  if (tab === "add" && !$("productId").value) resetForm();
 }
-function showTab(id){
- ["products","add","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- if(id==="products")loadProducts();
- if(id==="orders")loadOrders();
-}
-async function loadProducts(){
- const box=document.getElementById("productList");
- box.textContent="Загрузка...";
- const {data,error}=await db.from("products").select("*").order("created_at",{ascending:false});
- if(error){box.textContent="Ошибка: "+error.message;return;}
- box.innerHTML="";
- if(!data.length){box.textContent="Товаров пока нет.";return;}
- data.forEach(p=>{
-  const div=document.createElement("div");
-  div.className="item";
-  const img=document.createElement("img");
-  img.src=p.images?.[0]||"";
-  const info=document.createElement("div");
-  info.style.flex="1";
-  const title=document.createElement("strong");
-  title.textContent=p.name||"Без названия";
-  const details=document.createElement("div");
-  details.className="small";
-  details.textContent=(p.category||"")+" · "+Number(p.price||0).toLocaleString("ru-RU")+" ₸ · Остаток: "+(p.stock??0);
-  info.append(title,details);
-  const edit=document.createElement("button");
-  edit.textContent="Изменить";
-  edit.onclick=()=>editProduct(p);
-  const del=document.createElement("button");
-  del.textContent="Удалить";
-  del.className="danger";
-  del.onclick=()=>deleteProduct(p.id);
-  div.append(img,info,edit,del);
-  box.append(div);
- });
-}
-function editProduct(p){
- document.getElementById("productId").value=p.id;
- document.getElementById("name").value=p.name||"";
- document.getElementById("category").value=p.category||"Ошейники";
- document.getElementById("description").value=p.description||"";
- document.getElementById("price").value=p.price||"";
- document.getElementById("sale_price").value=p.sale_price||"";
- document.getElementById("stock").value=p.stock||0;
- document.getElementById("active").checked=p.is_active!==false;
- currentImages=p.images||[];
- document.getElementById("photoInfo").textContent="Сохранённые фотографии: "+currentImages.length;
- document.getElementById("formTitle").textContent="Редактирование товара";
- showTab("add");
-}
-function resetForm(){
- ["productId","name","description","price","sale_price","stock"].forEach(id=>document.getElementById(id).value="");
- document.getElementById("photos").value="";
- document.getElementById("active").checked=true;
- currentImages=[];
- document.getElementById("photoInfo").textContent="";
- document.getElementById("formTitle").textContent="Новый товар";
-}
-async function saveProduct(){
- const name=document.getElementById("name").value.trim();
- if(!name){msg("Введите название товара.");return;}
- const button=document.querySelector("#add button");
- button.disabled=true;
- try{
-  const files=[...document.getElementById("photos").files];
-  for(const file of files){
-   const safeName=Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-   const {error}=await db.storage.from("product-images").upload(safeName,file);
-   if(error)throw error;
-   const {data}=db.storage.from("product-images").getPublicUrl(safeName);
-   currentImages.push(data.publicUrl);
+
+async function loadProducts() {
+  $("productsList").innerHTML = '<p class="empty">Загрузка товаров...</p>';
+
+  const {data,error} = await db
+    .from("products")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if (error) {
+    $("productsList").textContent = "Не удалось загрузить товары: " + error.message;
+    return;
   }
-  const product={
-   name,
-   category:document.getElementById("category").value,
-   description:document.getElementById("description").value,
-   price:Number(document.getElementById("price").value||0),
-   sale_price:Number(document.getElementById("sale_price").value||0),
-   stock:Number(document.getElementById("stock").value||0),
-   images:currentImages,
-   is_active:document.getElementById("active").checked
-  };
-  const id=document.getElementById("productId").value;
-  const result=id
-   ? await db.from("products").update(product).eq("id",id)
-   : await db.from("products").insert(product);
-  if(result.error)throw result.error;
-  msg("Товар сохранён.");
-  resetForm();
-  showTab("products");
- }catch(e){msg("Ошибка: "+e.message);}
- finally{button.disabled=false;}
-}
-async function deleteProduct(id){
- if(!confirm("Удалить этот товар?"))return;
- const {error}=await db.from("products").delete().eq("id",id);
- if(error){msg("Ошибка: "+error.message);return;}
- loadProducts();
-}
-async function loadOrders(){
- const box=document.getElementById("orderList");
- box.textContent="Загрузка...";
- const {data,error}=await db.from("orders").select("*").order("created_at",{ascending:false});
- if(error){box.textContent="Ошибка: "+error.message;return;}
- box.innerHTML="";
- if(!data.length){box.textContent="Заказов пока нет.";return;}
- data.forEach(o=>{
-  const card=document.createElement("div");
-  card.className="card";
-  const heading=document.createElement("strong");
-  heading.textContent="Заказ · "+(o.created_at?new Date(o.created_at).toLocaleString("ru-RU"):"");
-  const phone=document.createElement("p");
-  phone.textContent="Телефон: "+(o.customer_phone||"не указан");
-  const address=document.createElement("p");
-  address.textContent="Адрес: "+(o.delivery_address||"не указан");
-  const total=document.createElement("p");
-  total.textContent="Сумма: "+Number(o.total||0).toLocaleString("ru-RU")+" ₸";
-  const status=document.createElement("p");
-  status.textContent="Статус: "+(o.status||"Новый");
-  card.append(heading,phone,address,total,status);
-  if(o.items){
-   const items=document.createElement("pre");
-   items.style.whiteSpace="pre-wrap";
-   items.textContent="Состав: "+JSON.stringify(o.items,null,2);
-   card.append(items);
+
+  if (!data || data.length === 0) {
+    $("productsList").innerHTML = '<p class="empty">Пока нет товаров. Добавьте первый товар.</p>';
+    return;
   }
-  box.append(card);
- });
+
+  $("productsList").innerHTML = data.map(p => {
+    const photo = p.images && p.images.length ? p.images[0] : "";
+    const safeName = escapeHTML(p.name || "Без названия");
+    return `
+      <div class="item">
+        ${photo ? `<img src="${escapeAttr(photo)}" alt="">` : '<div class="photo-preview">Нет фото</div>'}
+        <div class="item-info">
+          <strong>${safeName}</strong>
+          <div class="small">${escapeHTML(p.category || "")}</div>
+          <div>${Number(p.price || 0).toLocaleString("ru-RU")} ₸</div>
+          <div class="small">Остаток: ${Number(p.stock || 0)} · ${p.is_active ? "Активен" : "Скрыт"}</div>
+        </div>
+        <div class="actions">
+          <button class="secondary" onclick="editProduct('${p.id}')">ИЗМЕНИТЬ</button>
+          <button class="danger" onclick="deleteProduct('${p.id}')">УДАЛИТЬ</button>
+        </div>
+      </div>`;
+  }).join("");
 }
-(async()=>{
- const {data}=await db.auth.getSession();
- if(data.session)await checkAdmin(data.session.user);
-})();
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+function escapeAttr(value) {
+  return escapeHTML(value);
+}
+
+async function uploadImages(files) {
+  const urls = [];
+
+  for (const file of files) {
+    if (!file.type.startsWith("image/")) continue;
+
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const path = `${Date.now()}_${Math.random().toString(36).slice(2)}_${cleanName}`;
+
+    const {error} = await db.storage
+      .from("product-images")
+      .upload(path,file,{upsert:false});
+
+    if (error) throw new Error("Не удалось загрузить фото: " + error.message);
+
+    const {data} = db.storage.from("product-images").getPublicUrl(path);
+    urls.push(data.publicUrl);
+  }
+
+  return urls;
+}
+
+$("images").addEventListener("change", () => {
+  const files = Array.from($("images").files || []);
+  $("photoPreview").innerHTML = "";
+
+  files.forEach(file => {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    $("photoPreview").appendChild(img);
+  });
+});
+
+$("productForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("saveBtn");
+  btn.disabled = true;
+  btn.textContent = "СОХРАНЯЕМ...";
+  message("Сохраняем товар...");
+
+  try {
+    const newFiles = Array.from($("images").files || []);
+    const uploaded = await uploadImages(newFiles);
+    const allImages = [...currentImages,...uploaded];
+
+    const product = {
+      name:$("name").value.trim(),
+      category:$("category").value,
+      description:$("description").value.trim(),
+      price:Number($("price").value),
+      sale_price:$("salePrice").value === "" ? null : Number($("salePrice").value),
+      stock:Number($("stock").value || 0),
+      images:allImages,
+      is_active:$("isActive").checked
+    };
+
+    const id = $("productId").value;
+    let result;
+
+    if (id) {
+      result = await db.from("products").update(product).eq("id",id);
+    } else {
+      result = await db.from("products").insert(product);
+    }
+
+    if (result.error) throw result.error;
+
+    message("Товар успешно сохранён.");
+    resetForm();
+    showTab("products");
+  } catch (err) {
+    message("Ошибка: " + (err.message || "Не удалось сохранить товар"),true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "СОХРАНИТЬ ТОВАР";
+  }
+});
+
+async function editProduct(id) {
+  const {data,error} = await db.from("products").select("*").eq("id",id).single();
+
+  if (error) {
+    alert("Не удалось открыть товар: " + error.message);
+    return;
+  }
+
+  $("productId").value = data.id;
+  $("name").value = data.name || "";
+  $("category").value = data.category || "";
+  $("description").value = data.description || "";
+  $("price").value = data.price ?? "";
+  $("salePrice").value = data.sale_price ?? "";
+  $("stock").value = data.stock ?? 0;
+  $("isActive").checked = data.is_active !== false;
+  currentImages = Array.isArray(data.images) ? data.images : [];
+
+  $("photoPreview").innerHTML = currentImages.map(url =>
+    `<img src="${escapeAttr(url)}" alt="">`
+  ).join("");
+
+  $("formTitle").textContent = "Редактирование товара";
+  $("saveBtn").textContent = "СОХРАНИТЬ ИЗМЕНЕНИЯ";
+  showTab("add");
+}
+
+async function deleteProduct(id) {
+  if (!confirm("Точно удалить этот товар?")) return;
+
+  const {error} = await db.from("products").delete().eq("id",id);
+  if (error) {
+    alert("Ошибка удаления: " + error.message);
+    return;
+  }
+  await loadProducts();
+}
+
+function resetForm() {
+  $("productForm").reset();
+  $("productId").value = "";
+  $("stock").value = 0;
+  $("isActive").checked = true;
+  $("formTitle").textContent = "Новый товар";
+  $("saveBtn").textContent = "СОХРАНИТЬ ТОВАР";
+  $("photoPreview").innerHTML = "";
+  $("images").value = "";
+  currentImages = [];
+  message("");
+}
+
+async function loadOrders() {
+  $("ordersList").innerHTML = '<p class="empty">Загрузка заказов...</p>';
+
+  const {data,error} = await db
+    .from("orders")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if (error) {
+    $("ordersList").textContent = "Не удалось загрузить заказы: " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    $("ordersList").innerHTML = '<p class="empty">Пока заказов нет.</p>';
+    return;
+  }
+
+  $("ordersList").innerHTML = data.map(order => {
+    const date = order.created_at
+      ? new Date(order.created_at).toLocaleString("ru-RU")
+      : "Дата не указана";
+
+    let items = order.items;
+    if (typeof items === "string") {
+      try { items = JSON.parse(items); } catch { items = []; }
+    }
+
+    let itemsText = "";
+    if (Array.isArray(items)) {
+      itemsText = items.map(item =>
+        `${escapeHTML(item.name || item.title || "Товар")} × ${escapeHTML(item.quantity || item.count || 1)}`
+      ).join("<br>");
+    } else if (items && typeof items === "object") {
+      itemsText = escapeHTML(JSON.stringify(items));
+    }
+
+    return `
+      <div class="order-item">
+        <div class="grid">
+          <div>
+            <div class="small">ДАТА</div>
+            <strong>${escapeHTML(date)}</strong>
+          </div>
+          <div>
+            <div class="small">ТЕЛЕФОН</div>
+            <strong>${escapeHTML(order.customer_phone || "Не указан")}</strong>
+          </div>
+          <div>
+            <div class="small">СУММА</div>
+            <strong>${Number(order.total || 0).toLocaleString("ru-RU")} ₸</strong>
+          </div>
+        </div>
+        <p><span class="status">${escapeHTML(order.status || "Статус не указан")}</span></p>
+        <p><b>Адрес доставки:</b> ${escapeHTML(order.delivery_address || "Не указан")}</p>
+        <p><b>Товары:</b><br>${itemsText || "Состав заказа не указан"}</p>
+      </div>`;
+  }).join("");
+}
+
+checkSession();
 </script>
 </body>
 </html>
