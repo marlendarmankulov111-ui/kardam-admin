@@ -7,24 +7,245 @@
 <title>KARDAM — Админ-панель</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#111;color:#f4f0e8;font-family:Arial,sans-serif}
-header{padding:22px 5%;border-bottom:1px solid #39352e;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;letter-spacing:6px;color:#c6a875}
-main{max-width:1100px;margin:35px auto;padding:0 20px}
-h2{font-weight:400;color:#c6a875}
-input,textarea,select{width:100%;padding:12px;margin:7px 0 14px;background:#201f1c;border:1px solid #49443a;color:white;border-radius:4px}
-button{padding:12px 18px;background:#c6a875;color:#111;border:0;border-radius:4px;cursor:pointer;font-weight:bold;margin:4px}
-button.secondary{background:#34312b;color:white}
-button.danger{background:#853e36;color:white}
-.card{background:#1b1a17;border:1px solid #39352e;padding:20px;margin:15px 0;border-radius:6px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0}
-.hidden{display:none}
-.item{display:flex;gap:15px;align-items:center;border-bottom:1px solid #39352e;padding:14px 0}
-.item img{width:75px;height:75px;object-fit:cover;border-radius:4px}
-.small{font-size:13px;color:#b7b0a3}
-#message{color:#c6a875;margin:12px 0}
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
+:root {
+  --black: #171714;
+  --dark: #22211d;
+  --ivory: #f5f1e8;
+  --white: #fffdf8;
+  --gold: #b69a68;
+  --gold-light: #d2bd94;
+  --muted: #898274;
+  --line: #ded7c9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+header {
+  min-height: 82px;
+  padding: 20px 6%;
+  background: var(--black);
+  color: var(--ivory);
+  border-bottom: 1px solid #39362f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  letter-spacing: 9px;
+  color: var(--gold-light);
+}
+
+header #account {
+  color: #d7cbb5;
+  font-size: 12px;
+}
+
+main {
+  max-width: 1180px;
+  margin: 45px auto;
+  padding: 0 25px 60px;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 29px;
+  font-weight: 400;
+  color: var(--black);
+  margin: 20px 0 25px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 0;
+  margin: 20px 0 30px;
+  border-bottom: 1px solid var(--line);
+}
+
+button {
+  padding: 13px 22px;
+  background: var(--black);
+  color: var(--ivory);
+  border: 1px solid var(--black);
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+button:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #171714;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--black);
+  border-color: var(--line);
+}
+
+button.secondary:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+button.danger {
+  background: transparent;
+  color: #934c40;
+  border-color: #c9a49c;
+}
+
+button.danger:hover {
+  background: #934c40;
+  color: white;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 30px;
+  margin: 18px 0;
+  border-radius: 3px;
+  box-shadow: 0 5px 20px rgba(30, 25, 15, .035);
+}
+
+input:not([type="checkbox"]),
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0 20px;
+  background: #fffefa;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--gold);
+}
+
+label {
+  color: #655e52;
+  font-size: 12px;
+  letter-spacing: .5px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--gold);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 15px;
+}
+
+.item {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.item img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  background: #eee9df;
+  border: 1px solid var(--line);
+}
+
+.item strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 7px;
+}
+
+#message,
+#messagePanel {
+  color: #887047;
+  padding-top: 12px;
+  font-size: 13px;
+}
+
+pre {
+  background: var(--ivory);
+  padding: 15px;
+  overflow-x: auto;
+  font-size: 12px;
+  color: var(--dark);
+  border: 1px solid var(--line);
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 18px 20px;
+  }
+
+  .logo {
+    font-size: 25px;
+    letter-spacing: 6px;
+  }
+
+  main {
+    margin: 25px auto;
+    padding: 0 15px 40px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  nav button {
+    flex: 1 1 40%;
+  }
+}
+
 </style>
 </head>
 <body>
